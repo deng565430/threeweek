@@ -1,12 +1,12 @@
 /*
 	路由
 */
+import Router from 'koa-router';
+const router = Router();
 
-const router = require('koa-router')();
-
-const home = require('./home');
+import home from './home';
 
 router.use('/index', home.routes(), home.allowedMethods());
 
 
-module.exports = router;
+export default router;

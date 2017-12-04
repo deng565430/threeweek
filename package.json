@@ -6,7 +6,8 @@
   "scripts": {
     "webpackdev": "better-npm-run webpack:dev",
     "webpackprod": "better-npm-run webpack:prod",
-    "test": "better-npm-run test"
+    "test": "better-npm-run test",
+    "server": "nodemon ./build/app.js"
   },
   "betterScripts": {
     "webpack:dev": {
@@ -40,7 +41,10 @@
     "koa-logger": "^3.1.0",
     "koa-router": "^7.3.0",
     "koa-static": "^4.0.1",
-    "koa-views": "^6.1.2"
+    "koa-views": "^6.1.2",
+    "nodemon": "^1.12.1",
+    "request": "^2.83.0",
+    "request-promise": "^4.2.2"
   },
   "author": "",
   "license": "ISC",

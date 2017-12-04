@@ -1,4 +1,3 @@
-const a = 3333;
 import path from 'path';
 import Koa2 from 'koa';
 import convert from 'koa-convert';
@@ -8,8 +7,8 @@ import koaLogger from 'koa-logger';
 import bodyParser from 'koa-bodyparser';
 
 
-const CONFIG = require('../config/config.js');
-const routers = require('./routers/index');
+import CONFIG from './config/config.js';
+import routers from './routers/index';
 
 
 const app = new Koa2();
@@ -36,4 +35,4 @@ app.listen(CONFIG.get('prot'), () => {
 	console.log(`The server is start at prot ${CONFIG.get('prot')}`);
 });
 
-module.exports = app;
+export default app;

@@ -1,6 +1,6 @@
-const rpA = require('request-promise');
+import rpA from 'request-promise';
 
-class indexModule {
+class IndexModule {
   constructor(ctx) {
     this.ctx = ctx;
   }
@@ -22,4 +22,4 @@ class indexModule {
   }
 }
 
-module.exports = indexModule;
+export default IndexModule;

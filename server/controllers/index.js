@@ -1,4 +1,4 @@
-const indexModule = require('../modules/indexModule');
+import IndexModule from '../modules/indexModule';
 
 const indexController = {
   index () {
@@ -11,10 +11,10 @@ const indexController = {
   },
   update () {
     return async (ctx, next) => {
-      const indexModules = new indexModule(ctx)
+      const indexModules = new IndexModule(ctx)
       ctx.body = await indexModules.updateNum();
     }
   }
 }
 
-module.exports = indexController;
+export default indexController;

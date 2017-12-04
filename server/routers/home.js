@@ -1,9 +1,10 @@
 /*
 	子路由
 */
-const router = require('koa-router')();
-const index = require('../controllers/index');
+import Router from 'koa-router';
+const router = Router();
+import index from '../controllers/index';
 
-module.exports = router
+export default router
   .get('/',index.index())
   .get('/update',index.update())
