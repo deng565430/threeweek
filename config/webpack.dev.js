@@ -1,30 +1,37 @@
 const path = require('path');
 const webpack = require('webpack');
+// 监控浏览器自动更新
 const LiveReloadPlugin = require('webpack-livereload-plugin');
 // 编译分离css
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
+
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   // 入口文件
   entry: {
     index: [
-      path.join(__dirname, '../static/js/index.js')
+      path.join(__dirname, '../src/public/scripts/index.es'),
+      path.join(__dirname, '../src/public/scripts/indexadd.js')
+    ],
+    tag: [
+      path.join(__dirname, '../src/public/scripts/tag.es')
     ]
   },
   // 输出文件
   output: {
     // 输出名称 hash:5 生成 哈希值
-    filename: 'js/[name].[hash:5].js',
+    filename: 'public/scripts/[name].[hash:5].js',
     // 输出的路径
-    path: path.resolve(__dirname, '../dist')
+    path: path.join(__dirname, '../build/')
   },
   // 依赖模块
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.es$/,
         exclude: /(node_modules|bower_components)/,
-        use: {
+        loaders: {
           loader: 'babel-loader',
           options: {
             presets: ['env']
@@ -33,7 +40,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ExtractTextPlugin.extract({
+        loaders: ExtractTextPlugin.extract({
           fallback: "style-loader",
           use: "css-loader"
         })
@@ -52,6 +59,26 @@ module.exports = {
       appendScriptTag: true
     }),
     // 分离css之后的路径
-    new ExtractTextPlugin('css/[name].[hash:5].css')
+    new ExtractTextPlugin('public/css/[name]-[hash:5].css'),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
+      filename: 'public/scripts/common/vendor-[hash:5].min.js'
+    }),
+    new HtmlWebpackPlugin({
+      filename: './views/layout.html',
+      template: 'src/widget/layout.html',
+      inject: false,
+    }),
+    new HtmlWebpackPlugin({
+      filename: './views/index.html',
+      template: 'src/views/index.js',
+      inject: false,
+      chunks: ['vendor', 'index', 'tag']
+    }),
+    new HtmlWebpackPlugin({
+      filename: './widget/index.html',
+      template: 'src/widget/index.html',
+      inject: false
+    }),
   ]
 } 

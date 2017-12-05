@@ -11,23 +11,27 @@ module.exports = {
   // 入口文件
   entry: {
     index: [
-      path.join(__dirname, '../static/js/index.js')
+      path.join(__dirname, '../src/public/scripts/index.es'),
+      path.join(__dirname, '../src/public/scripts/indexadd.js')
+    ],
+    tag: [
+      path.join(__dirname, '../src/public/scripts/tag.es')
     ]
   },
   // 输出文件
   output: {
     // 输出名称 hash:5 生成 哈希值
-    filename: 'js/[name].[hash:5].js',
+    filename: 'public/scripts/[name].[hash:5].js',
     // 输出的路径
-    path: path.resolve(__dirname, '../dist')
+    path: path.join(__dirname, '../build/')
   },
   // 依赖模块
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.es$/,
         exclude: /(node_modules|bower_components)/,
-        use: {
+        loaders: {
           loader: 'babel-loader',
           options: {
             presets: ['env']
@@ -36,7 +40,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ExtractTextPlugin.extract({
+        loaders: ExtractTextPlugin.extract({
           fallback: "style-loader",
           use: "css-loader"
         })
@@ -55,7 +59,7 @@ module.exports = {
       appendScriptTag: true
     }),
     // 分离css输出路径
-    new ExtractTextPlugin('css/[name].[hash:5].css'),
+    new ExtractTextPlugin('public/css/[name]-[hash:5].css'),
     // 压缩js
     new webpack.optimize.UglifyJsPlugin({
       compress: {
@@ -73,7 +77,7 @@ module.exports = {
     // 代码分离 提取公共模块
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor', // Specify the common bundle's name.
-      filename: 'public/common/[name]-[hash:5].js'
+      filename: 'public/scripts/common/vendor-[name]-[hash:5].man.js'
     })
   ]
 } 
