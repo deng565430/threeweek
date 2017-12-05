@@ -60,19 +60,24 @@ module.exports = {
     }),
     // 分离css之后的路径
     new ExtractTextPlugin('public/css/[name]-[hash:5].css'),
+    // 抽取公共模块
     new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
-      filename: 'public/scripts/common/vendor-[hash:5].min.js'
+      // 增加缓存
+      names: ['vendor', 'manifest'],
+      filename: 'public/scripts/common/[name].[hash:5].min.js'
     }),
+    // 生成html文件
     new HtmlWebpackPlugin({
       filename: './views/layout.html',
       template: 'src/widget/layout.html',
+      // inject 有四个选项值 true, body, head, false. 默认值，script标签位于html文件的 body 底部。 false 不插入生成的 js 文件，只是单纯的生成一个 html 文件
       inject: false,
     }),
     new HtmlWebpackPlugin({
       filename: './views/index.html',
       template: 'src/views/index.js',
       inject: false,
+      // 指定引入哪些js
       chunks: ['vendor', 'index', 'tag']
     }),
     new HtmlWebpackPlugin({

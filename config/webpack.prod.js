@@ -76,8 +76,9 @@ module.exports = {
     }),
     // 代码分离 提取公共模块
     new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor', // Specify the common bundle's name.
-      filename: 'public/scripts/common/vendor-[name]-[hash:5].man.js'
+      // 增加缓存
+      names: ['vendor', 'manifest'],
+      filename: 'public/scripts/common/[name].[hash:5].min.js'
     })
   ]
 } 
