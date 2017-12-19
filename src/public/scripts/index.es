@@ -15,7 +15,19 @@ class PraiseButton {
             });
     }
 }
+class Thumb extends PraiseButton{
+    constructor(){
+        super();
+    }
 
-export default PraiseButton 
+}
+class Star extends PraiseButton {
+    constructor() {
+        super();
+    }
+
+}
+
+export { PraiseButton, Thumb, Star}  
 /*let f=new Thumb(0,$('#thumb'));
 f.clickAction();*/

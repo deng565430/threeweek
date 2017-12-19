@@ -1,5 +1,5 @@
-import PraiseButton from './index.es'
-const f = new PraiseButton();
+import {Thumb} from './index.es'
+const f = new Thumb();
 xtag.register('x-praise', {
     content: "<div class='hand' id='thumb'>" +
         "<div class='finger'></div>" +

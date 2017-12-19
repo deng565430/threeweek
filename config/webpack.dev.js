@@ -6,6 +6,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 // 监控浏览器自动更新
 const LiveReloadPlugin = require('webpack-livereload-plugin');
 
+// 离线缓存
+const Manifest = require('webpack-manifest');
+
 const config = require('./config');
 
 const Devwebpack = Object.assign({}, config, {
@@ -23,12 +26,12 @@ const Devwebpack = Object.assign({}, config, {
     // 抽取公共模块
     new webpack.optimize.CommonsChunkPlugin({
       // 增加缓存
-      names: ['vendor', 'manifest'],
-      filename: 'public/scripts/common/[name].[hash:5].min.js',
+      names: ['vendor'],
+      filename: 'public/scripts/common/vendor.min.js',
       minChunks: 2
     }),
     // 分离css之后的路径
-    new ExtractTextPlugin('public/css/[name]-[hash:5].css'),
+    new ExtractTextPlugin('public/css/[name].css'),
     // 生成html文件
     new HtmlWebpackPlugin({
       filename: './views/layout.html',
@@ -48,6 +51,42 @@ const Devwebpack = Object.assign({}, config, {
       template: 'src/widget/index.html',
       inject: false
     }),
+    new HtmlWebpackPlugin({
+      filename: './views/star.html',
+      template: 'src/views/star.js',
+      inject: false,
+      // 指定引入哪些js
+      chunks: ['vendor', 'index', 'tag']
+    }),
+    new HtmlWebpackPlugin({
+      filename: './widget/star.html',
+      template: 'src/widget/star.html',
+      inject: false
+    }),
+    new Manifest({
+      // 缓存文件的路径
+      cache: [
+        '../public/css/vendor.css',
+        '../public/scripts/common/vendor.min.js',
+        '../public/scripts/index.js',
+        '../public/scripts/tag.js',
+      ],
+      //Add time in comments. 
+      timestamp: true,
+      // 生成的文件名字，选填 
+      // The generated file name, optional. 
+      filename: 'cache.manifest',
+      // 注意*星号前面用空格隔开 
+      network: [
+        '*'
+      ],
+      // 注意中间用空格隔开 
+      // fallback: ['/ /404.html'],
+      // manifest 文件中添加注释 
+      // Add notes to manifest file. 
+      headcomment: 'koatesting',
+      master: ['../views/layout.html']
+    })
   ]
 }) 
 
